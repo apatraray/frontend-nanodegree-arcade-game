@@ -7,7 +7,7 @@ is to reach water without colliding with enemies and score at least 100 points t
 
 ## Link
 
-Game can be accessed using my [GitHub] page.(http://apatraray.github.io/frontend-nanodegree-arcade-game.)
+Game can be accessed using my [GitHub] page.(http://apatraray.github.io/frontend-nanodegree-arcade-game/)
 
 ## Rules
 
