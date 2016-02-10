@@ -1,18 +1,18 @@
 //The Game object stores information about the game
-var Game = function(){
-    this.score=0;
-    this.lives=3;
-    this.isCollision=false;
-    this.hasReachedWater=false;
-    this.canvasWidth=505;
-    this.canvasHeight=400;
-    this.tileWidth=100;
-    this.tileHeight=80;
+var Game = function() {
+    this.score = 0;
+    this.lives = 3;
+    this.isCollision = false;
+    this.hasReachedWater = false;
+    this.canvasWidth = 505;
+    this.canvasHeight = 400;
+    this.tileWidth = 100;
+    this.tileHeight = 80;
 };
 
 //Entity object is the superclass of Enemy object, Player object,
 //CollisionImage object and LivesImage object
-var Entity = function (x,y) {
+var Entity = function(x, y) {
     this.x = x;
     this.y = y;
 };
@@ -36,12 +36,11 @@ Enemy.prototype.update = function(dt) {
     // Any movement should be multiplied by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    if(this.x < game.canvasWidth) {
-    this.x += this.speed * dt;
-}
-else{
-    this.x = 0;
-}
+    if (this.x < game.canvasWidth) {
+        this.x += this.speed * dt;
+    } else {
+        this.x = 0;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -64,10 +63,10 @@ Player.prototype.constructor = Player;
 //Update player movements, track score, lives and collisions
 //displays result
 Player.prototype.update = function() {
-this.detectCollision();
-displayUpdatedScore();
-displayLives();
-displayResult();
+    this.detectCollision();
+    displayUpdatedScore();
+    displayLives();
+    displayResult();
 };
 
 //Draw the player on the canvas.
@@ -77,66 +76,74 @@ Player.prototype.render = function() {
 
 //Player and enemy collision detection.
 Player.prototype.detectCollision = function() {
-    game.isCollision = checkCollisions(allEnemies);
+    game.isCollision = this.checkCollisions();
     //if collision detected, reduce a player life and reduce
     //the score by 5 points
-    if(game.isCollision) {
+    if (game.isCollision) {
         collisionImageDisplay(this.x, this.y);
-        if(game.lives > 0) {
+        if (game.lives > 0) {
             game.lives--;
         }
-        if(game.score > 0) {
+        if (game.score > 0) {
             game.score -= 5;
         }
         resetPlayer();
     }
 };
 
+//Method for Collision detection between entities
+Player.prototype.checkCollisions = function() {
+    for (var i = 0, len = allEnemies.length; i < len; i++) {
+        if (this.x < allEnemies[i].x + allEnemies[i].width &&
+            this.x + this.width > allEnemies[i].x &&
+            this.y < allEnemies[i].y + allEnemies[i].height &&
+            this.y + this.height > allEnemies[i].y) {
+            return true;
+        }
+    }
+    return false;
+};
+
 //Update player movements based on keyboard inputs
 //Player can move up, down, left and right and
 //limit movement within the canvas
 Player.prototype.handleInput = function(key) {
-    if(game.lives === 0)
-    {
+    if (game.lives === 0) {
         resetPlayer();
     }
-    switch(key) {
+    switch (key) {
         case 'left':
-        if(this.x - game.tileWidth < 0){
-            this.x = 0;
-        }
-        else {
-            this.x -= game.tileWidth;
-        }
-        break;
+            if (this.x - game.tileWidth < 0) {
+                this.x = 0;
+            } else {
+                this.x -= game.tileWidth;
+            }
+            break;
 
         case 'right':
-        if(this.x + game.tileWidth +5 >= game.canvasWidth){
-            this.x = 400;
-        }
-        else {
-            this.x += game.tileWidth;
-        }
-        break;
+            if (this.x + game.tileWidth + 5 >= game.canvasWidth) {
+                this.x = 400;
+            } else {
+                this.x += game.tileWidth;
+            }
+            break;
 
         case 'up':
-        if(this.y - game.tileHeight < 0){
-            this.y = 400;
-            game.hasReachedWater = true;
-        }
-        else {
-            this.y -= game.tileHeight;
-        }
-        break;
+            if (this.y - game.tileHeight < 0) {
+                this.y = 400;
+                game.hasReachedWater = true;
+            } else {
+                this.y -= game.tileHeight;
+            }
+            break;
 
         case 'down':
-        if(this.y + game.tileHeight > game.canvasHeight){
-            this.y = 400;
-        }
-        else {
-            this.y += game.tileHeight;
-        }
-        break;
+            if (this.y + game.tileHeight > game.canvasHeight) {
+                this.y = 400;
+            } else {
+                this.y += game.tileHeight;
+            }
+            break;
     }
 };
 
@@ -180,14 +187,14 @@ var displayLives = function() {
     //number of lives
     var livesNum = game.lives;
     //the x coordinate of the live image based on the number of lives
-    var livesPos = 400 + (2 - livesNum)*32;
+    var livesPos = 400 + (2 - livesNum) * 32;
     //If there is collision, clear the liveimage and remove the image
     //from the livesAllImage array.
-    if(game.isCollision){
-        ctx.clearRect(livesPos,0,30,50);
+    if (game.isCollision) {
+        ctx.clearRect(livesPos, 0, 30, 50);
         livesAllImage.splice(0, 1);
-   }
-   game.isCollision = false;
+    }
+    game.isCollision = false;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -195,24 +202,11 @@ LivesImage.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-//Method for Collision detection between entities
-var checkCollisions = function(targetArray) {
-    for(var i = 0; i < targetArray.length; i++) {
-        if(player.x < targetArray[i].x + targetArray[i].width &&
-            player.x + player.width > targetArray[i].x &&
-            player.y < targetArray[i].y + targetArray[i].height &&
-            player.y + player.height > targetArray[i].y) {
-                return true;
-        }
-    }
-    return false;
-};
-
 //update the score if the player has reached the water
 //display the correct score
 //display lives as 0 if there is no lives available
 var displayUpdatedScore = function() {
-    if(game.hasReachedWater) {
+    if (game.hasReachedWater) {
         game.score += 10;
         resetPlayer();
         game.hasReachedWater = false;
@@ -221,8 +215,7 @@ var displayUpdatedScore = function() {
     ctx.font = "20px Verdana";
     ctx.fillStyle = "black";
     ctx.fillText("Score: " + game.score, 8, 30);
-    if(game.lives === 0)
-    {
+    if (game.lives === 0) {
         ctx.clearRect(400, 0, 100, 40);
         ctx.fillText("Lives: " + game.lives, 400, 30);
     }
@@ -232,19 +225,18 @@ var displayUpdatedScore = function() {
 //display game as won if the score of game is equal to or more than 100
 //display game as lost if score is less than 100 and number of lives is 0
 var displayResult = function() {
-    if(game.score >= 100) {
+    if (game.score >= 100) {
         $('#game-won').show();
         $('.won').click(function() {
             $('#game-won').hide();
             document.location.reload();
         });
-    }
-    else if(game.lives === 0) {
+    } else if (game.lives === 0) {
         $('#game-over').show();
-            $('.lost').click(function() {
-                $('#game-over').hide();
-                document.location.reload();
-            });
+        $('.lost').click(function() {
+            $('#game-over').hide();
+            document.location.reload();
+        });
     }
 };
 
@@ -255,7 +247,7 @@ var resetPlayer = function() {
 };
 
 //instantiate Enemy objects and place them in an array allEnemies
-var allEnemies = [new Enemy(0,60), new Enemy(100,120), new Enemy(30,180), new Enemy(120,60)];
+var allEnemies = [new Enemy(0, 60), new Enemy(100, 120), new Enemy(30, 180), new Enemy(120, 60)];
 //instantiate Player object
 var player = new Player(200, 400);
 //instantiate Game object
@@ -263,7 +255,7 @@ var game = new Game();
 //declare an array to store CollisionImage
 var collisionAllImage = [];
 //instantiate LivesImage object
-var livesAllImage = [new LivesImage(400,0), new LivesImage(432,0), new LivesImage(464,0)];
+var livesAllImage = [new LivesImage(400, 0), new LivesImage(432, 0), new LivesImage(464, 0)];
 
 // This listens for key presses and sends the keys to the
 // Player.handleInput() method.

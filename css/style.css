@@ -1,23 +1,23 @@
 body {
     text-align: center;
-    background-color: #F5D098;
+    background-color: #f5d098;
 }
 
 h1 {
     font-weight: bold;
     font-family: sans-serif;
-    color: #0606FB;
+    color: #0606fb;
 }
 
 .btn {
     margin: 1em;
-    background-color: #BF952B;
+    background-color: #bf952b;
     color: white;
 }
 
 .modal-body {
     font-family: Arial, sans-serif;
-    background-color: #EAED95;
+    background-color: #eaed95;
     color: black;
 }
 
@@ -29,7 +29,7 @@ h1 {
     border-radius: 5px;
     border: 1px;
     color: white;
-    background-color: #990000;
+    background-color: #900;
     font-weight: bold;
     font-size: 150%;
     padding-bottom: 20px;
