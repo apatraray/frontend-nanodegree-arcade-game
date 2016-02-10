@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Arcade game</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Arcade Game</h1>
+        </div>
+    </div>
+    <script src="js/resources.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/engine.js"></script>
+    <div class="row">
+        <div class="game-rule col-md-12 text-center">
+            <button type="button" class="btn btn-warning" id="btn-how-to-play" data-toggle="modal" data-target="#instructions">
+                How to Play</button>
+        </div>
+    </div>
+    <div id="game-over">
+        <a href="javascript:void(0)" class="button lost">Sorry!! You Lost! Play Again</a>
+    </div>
+    <div id="game-won">
+        <a href="javascript:void(0)" class="button won">Congratulations!! You Won! Play Again</a>
+    </div>
+
+    <!-- Modal Code copied from Bootstrap site http://getbootstrap.com/javascript/ -->
+    <!-- Instructions Modal -->
+    <div class="modal fade" id="instructions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel1">Arcade Game Instructions</h4>
+                </div>
+                <div class="modal-body">
+                    <h2>Rules of Game:</h2>
+                    <ol>
+                        <li>Player goal is to reach water without colliding enemies.</li>
+                        <li>On reaching water, player is rewarded with 10 points.</li>
+                        <li>On getting collided by enemy, there is deduction of 5 points.</li>
+                        <li>The player can move left, right, up and down.</li>
+                        <li>If the score is equal to or more than 100 points, the player is declared as winner</li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Instructions Modal -->
+</body>
+
+</html>
